@@ -1,0 +1,209 @@
+# Colección de Requests para Postman/Thunder Client
+# Importa este archivo en tu cliente REST favorito
+
+## Variables
+@baseUrl = http://localhost:3000
+@token = TU_TOKEN_AQUI
+
+### ========================================
+### AUTENTICACIÓN
+### ========================================
+
+### 1. Registrar nuevo usuario
+POST {{baseUrl}}/api/auth/register
+Content-Type: application/json
+
+{
+  "name": "Usuario Test",
+  "email": "test@example.com",
+  "password": "123456",
+  "address": "Calle Test 123, Viña del Mar",
+  "latitude": -33.0243,
+  "longitude": -71.5518
+}
+
+### 2. Login (Admin)
+POST {{baseUrl}}/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "admin@duoc.cl",
+  "password": "123456"
+}
+
+### 3. Obtener usuario actual (requiere token)
+GET {{baseUrl}}/api/auth/me
+Authorization: Bearer {{token}}
+
+### 4. Actualizar dirección
+PUT {{baseUrl}}/api/auth/update-address
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "address": "Avenida Brasil 2020, Valparaíso",
+  "latitude": -33.0458,
+  "longitude": -71.6197
+}
+
+### ========================================
+### PRODUCTOS
+### ========================================
+
+### 5. Obtener todos los productos
+GET {{baseUrl}}/api/products
+
+### 6. Buscar productos
+GET {{baseUrl}}/api/products?search=playstation
+
+### 7. Filtrar por categoría
+GET {{baseUrl}}/api/products?category=Consolas
+
+### 8. Solo productos con descuento
+GET {{baseUrl}}/api/products?hasDiscount=true
+
+### 9. Obtener un producto específico
+GET {{baseUrl}}/api/products/1
+
+### 10. Crear producto (requiere token de admin)
+POST {{baseUrl}}/api/products
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "id": 11,
+  "name": "Steam Deck",
+  "description": "Consola portátil gaming PC de Valve",
+  "price": 499990,
+  "discount": 0,
+  "hasDiscount": false,
+  "finalPrice": 499990,
+  "stock": 5,
+  "category": {
+    "id": 1,
+    "name": "Consolas"
+  },
+  "imageUrl": "",
+  "rating": 4.5
+}
+
+### 11. Actualizar producto (requiere token de admin)
+PUT {{baseUrl}}/api/products/11
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "stock": 10,
+  "discount": 10,
+  "hasDiscount": true
+}
+
+### 12. Eliminar producto (requiere token de admin)
+DELETE {{baseUrl}}/api/products/11
+Authorization: Bearer {{token}}
+
+### ========================================
+### TIENDAS
+### ========================================
+
+### 13. Obtener todas las tiendas
+GET {{baseUrl}}/api/stores
+
+### 14. Obtener tienda más cercana
+GET {{baseUrl}}/api/stores/nearest?latitude=-33.0243&longitude=-71.5518
+
+### 15. Tienda más cercana desde Valparaíso
+GET {{baseUrl}}/api/stores/nearest?latitude=-33.0458&longitude=-71.6197
+
+### ========================================
+### CARRITO
+### ========================================
+
+### 16. Obtener carrito del usuario
+GET {{baseUrl}}/api/cart
+Authorization: Bearer {{token}}
+
+### 17. Agregar PlayStation 5 al carrito
+POST {{baseUrl}}/api/cart
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "productId": 1,
+  "productName": "PlayStation 5",
+  "productPrice": 599990,
+  "productImage": "",
+  "quantity": 1
+}
+
+### 18. Agregar Xbox Series X al carrito
+POST {{baseUrl}}/api/cart
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "productId": 2,
+  "productName": "Xbox Series X",
+  "productPrice": 549990,
+  "productImage": "",
+  "quantity": 2
+}
+
+### 19. Actualizar cantidad de un item (usar el _id del item)
+PUT {{baseUrl}}/api/cart/CART_ITEM_ID_AQUI
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "quantity": 3
+}
+
+### 20. Eliminar un item del carrito
+DELETE {{baseUrl}}/api/cart/CART_ITEM_ID_AQUI
+Authorization: Bearer {{token}}
+
+### 21. Vaciar carrito completo
+DELETE {{baseUrl}}/api/cart
+Authorization: Bearer {{token}}
+
+### ========================================
+### FLUJO COMPLETO DE COMPRA
+### ========================================
+
+### Paso 1: Login
+POST {{baseUrl}}/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "admin@duoc.cl",
+  "password": "123456"
+}
+
+# Copia el token de la respuesta y reemplázalo en @token
+
+### Paso 2: Ver productos disponibles
+GET {{baseUrl}}/api/products
+
+### Paso 3: Agregar productos al carrito
+POST {{baseUrl}}/api/cart
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "productId": 1,
+  "productName": "PlayStation 5",
+  "productPrice": 599990,
+  "quantity": 1
+}
+
+### Paso 4: Ver carrito
+GET {{baseUrl}}/api/cart
+Authorization: Bearer {{token}}
+
+### Paso 5: Ver tiendas cercanas
+GET {{baseUrl}}/api/stores/nearest?latitude=-33.0243&longitude=-71.5518
+
+### Paso 6: Procesar compra (vaciar carrito)
+DELETE {{baseUrl}}/api/cart
+Authorization: Bearer {{token}}
+
