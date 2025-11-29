@@ -2,7 +2,13 @@
 
 Backend RESTful API para la aplicación Level Up Gamer, desarrollado con Express.js y MongoDB.
 
-## 🚀 Tecnologías
+## Autores
+
+- Onésimo Aguirre
+- Alex Caica
+- Manuel Alfaro
+
+## Tecnologías
 
 - **Node.js** - Runtime de JavaScript
 - **Express.js** - Framework web
@@ -11,13 +17,13 @@ Backend RESTful API para la aplicación Level Up Gamer, desarrollado con Express
 - **JWT** - Autenticación con JSON Web Tokens
 - **bcryptjs** - Encriptación de contraseñas
 
-## 📋 Requisitos Previos
+## Requisitos Previos
 
 - Node.js >= 14.x
 - npm o yarn
-- Cuenta en MongoDB Atlas (gratis)
+- MongoDB Atlas (cuenta gratuita)
 
-## 🔧 Instalación
+## Instalación
 
 ### 1. Navegar a la carpeta del backend
 
@@ -33,25 +39,25 @@ npm install
 
 ### 3. Configurar MongoDB
 
-#### Opción A: Usar MongoDB Atlas (RECOMENDADO - GRATIS)
+#### Opción A: MongoDB Atlas (Recomendado)
 
-1. Ve a [MongoDB Atlas](https://www.mongodb.com/cloud/atlas)
-2. Crea una cuenta gratuita
-3. Crea un nuevo cluster (selecciona el tier FREE)
-4. En "Database Access", crea un nuevo usuario con contraseña
-5. En "Network Access", agrega tu IP (o permite acceso desde cualquier IP: 0.0.0.0/0)
-6. Haz click en "Connect" → "Connect your application"
-7. Copia el connection string (algo como: `mongodb+srv://usuario:password@cluster.mongodb.net/`)
+1. Acceder a [MongoDB Atlas](https://www.mongodb.com/cloud/atlas)
+2. Crear una cuenta gratuita
+3. Crear un nuevo cluster (seleccionar el tier gratuito)
+4. En "Database Access", crear un nuevo usuario con contraseña
+5. En "Network Access", agregar tu IP o permitir acceso desde cualquier IP (0.0.0.0/0)
+6. Hacer clic en "Connect" → "Connect your application"
+7. Copiar el connection string
 
-#### Opción B: Usar MongoDB local
+#### Opción B: MongoDB local
 
 ```bash
-# Instala MongoDB en tu sistema
+# Instalar MongoDB
 # macOS
 brew tap mongodb/brew
 brew install mongodb-community
 
-# Inicia MongoDB
+# Iniciar MongoDB
 brew services start mongodb-community
 ```
 
@@ -63,10 +69,10 @@ Crea un archivo `.env` en la carpeta `backend`:
 cp .env.example .env
 ```
 
-Edita el archivo `.env` y agrega tu connection string de MongoDB:
+Editar el archivo `.env` y agregar el connection string de MongoDB:
 
 ```env
-# IMPORTANTE: Reemplaza con tu connection string real
+# Reemplazar con el connection string real
 MONGODB_URI=mongodb+srv://tu_usuario:tu_password@cluster.mongodb.net/levelupgamer?retryWrites=true&w=majority
 
 PORT=3000
@@ -74,21 +80,21 @@ JWT_SECRET=tu_super_secreto_jwt_cambiar_en_produccion_12345
 NODE_ENV=development
 ```
 
-**IMPORTANTE**: Reemplaza:
-- `tu_usuario` con tu usuario de MongoDB
-- `tu_password` con tu contraseña de MongoDB
-- `cluster` con el nombre de tu cluster
+Reemplazar:
+- `tu_usuario` con el usuario de MongoDB
+- `tu_password` con la contraseña de MongoDB
+- `cluster` con el nombre del cluster
 
-### 5. Poblar la base de datos (Seeder)
+### 5. Poblar la base de datos
 
 ```bash
 npm run seed
 ```
 
 Este comando creará:
-- ✅ 1 usuario admin (admin@duoc.cl / 123456)
-- ✅ 10 productos de ejemplo
-- ✅ 3 tiendas en Viña del Mar y Valparaíso
+- 1 usuario administrador (admin@duoc.cl / 123456)
+- 10 productos de ejemplo
+- 3 tiendas en Viña del Mar y Valparaíso
 
 ### 6. Iniciar el servidor
 
@@ -104,9 +110,9 @@ npm start
 
 El servidor estará disponible en: `http://localhost:3000`
 
-## 📚 API Endpoints
+## API Endpoints
 
-### 🔐 Autenticación (`/api/auth`)
+### Autenticación (`/api/auth`)
 
 #### Registrar usuario
 ```http
@@ -173,7 +179,7 @@ Content-Type: application/json
 }
 ```
 
-### 🎮 Productos (`/api/products`)
+### Productos (`/api/products`)
 
 #### Obtener todos los productos
 ```http
@@ -223,7 +229,7 @@ DELETE /api/products/:id
 Authorization: Bearer {token}
 ```
 
-### 🏪 Tiendas (`/api/stores`)
+### Tiendas (`/api/stores`)
 
 #### Obtener todas las tiendas
 ```http
@@ -235,7 +241,7 @@ GET /api/stores
 GET /api/stores/nearest?latitude=-33.0243&longitude=-71.5518
 ```
 
-### 🛒 Carrito (`/api/cart`)
+### Carrito (`/api/cart`)
 
 #### Obtener carrito del usuario
 ```http
@@ -281,15 +287,7 @@ DELETE /api/cart
 Authorization: Bearer {token}
 ```
 
-## 👤 Usuario de Prueba
-
-```
-Email: admin@duoc.cl
-Password: 123456
-Rol: admin
-```
-
-## 🗂️ Estructura del Proyecto
+## Estructura del Proyecto
 
 ```
 backend/
@@ -316,39 +314,35 @@ backend/
 └── README.md
 ```
 
-## 🔒 Seguridad
+## Seguridad
 
 - Las contraseñas se encriptan con bcrypt
 - Autenticación con JWT
 - Validación de datos con express-validator
-- CORS habilitado para desarrollo
+- CORS habilitado
 
-## 📝 Notas
+## Notas Importantes
 
 - El token JWT expira en 30 días
 - Los productos con descuento calculan automáticamente el precio final
 - El carrito está asociado al usuario autenticado
-- Solo los administradores pueden crear/editar/eliminar productos
+- Solo los administradores pueden crear, editar o eliminar productos
 
-## 🐛 Troubleshooting
+## Solución de Problemas
 
 ### Error: "MongooseServerSelectionError"
-- Verifica que tu connection string de MongoDB sea correcto
-- Asegúrate de que tu IP esté permitida en MongoDB Atlas
-- Revisa que el usuario y contraseña sean correctos
+- Verificar que el connection string de MongoDB sea correcto
+- Asegurarse de que la IP esté permitida en MongoDB Atlas
+- Revisar que el usuario y contraseña sean correctos
 
 ### Error: "JWT must be provided"
-- Asegúrate de incluir el header `Authorization: Bearer {token}` en las rutas protegidas
+- Asegurarse de incluir el header `Authorization: Bearer {token}` en las rutas protegidas
 
 ### Error: "Port 3000 already in use"
-- Cambia el puerto en el archivo `.env`
-- O mata el proceso que está usando el puerto 3000
-
-## 📧 Soporte
-
-Para cualquier duda o problema, contacta a Grupo 10.
+- Cambiar el puerto en el archivo `.env`
+- O detener el proceso que está usando el puerto 3000
 
 ---
 
-**Level Up Gamer** - Tu tienda de videojuegos favorita 🎮
+**Level Up Gamer** - Tienda de videojuegos
 
